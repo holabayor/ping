@@ -1,1 +1,1 @@
-# Ping - A Messaging Application
+# Restaurant ChatBot Application
