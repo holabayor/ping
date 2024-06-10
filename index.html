@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Restaurant Chatbot</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        padding: 10px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        height: 350px;
+        max-height: 400px;
+        background-color: beige;
+        border: 1px solid black;
+        padding: 5px;
+      }
+
+      #messages {
+        /* overflow-y: hidden; */
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none; */
+      }
+
+      #chat::-webkit-scrollbar {
+        display: none;
+      }
+
+      .message {
+        padding: 5px;
+        margin: 5px;
+        border-radius: 5px;
+      }
+
+      .bot {
+        background-color: aqua;
+        text-align: left;
+      }
+
+      .user {
+        background-color: darkkhaki;
+        align-self: flex-end;
+      }
+
+      #chat {
+        height: 100%;
+        background: rgb(132, 133, 130);
+        overflow: scroll;
+      }
+
+      #form {
+        background: cornflowerblue;
+        display: flex;
+        padding: 5px 2px;
+        gap: 5px;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.15);
+      }
+
+      input {
+        border: none;
+        display: flex;
+        flex-grow: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to Maami Market</h1>
+    <div class="container">
+      This is my first chatbot
+      <div id="chat">
+        <ul id="messages"></ul>
+      </div>
+      <form id="form" action="">
+        <input id="input" type="text" autocomplete="off" />
+        <button id="sendButton">Send</button>
+      </form>
+    </div>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script>
+      const socket = io();
+
+      console.log('The socket is ', socket);
+
+      const chat = document.getElementById('chat');
+      const messages = document.getElementById('messages');
+      const sendButton = document.getElementById('sendButton');
+      const messageInput = document.getElementById('input');
+
+      const appendMessage = (message, className) => {
+        const messageElement = document.createElement('li');
+        messageElement.textContent = message;
+        messageElement.className = `message ${className}`;
+
+        messages.appendChild(messageElement);
+        console.log('Messages here', messages);
+        chat.scrollTop = messages.scrollHeight;
+      };
+
+      socket.on('message', (message) => {
+        // console.log('Another message received', message);
+        appendMessage(message, 'bot');
+      });
+
+      sendButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        const message = messageInput.value;
+        if (message.trim() !== '') {
+          socket.emit('userInput', message);
+          appendMessage(message, 'user');
+          messageInput.value = '';
+        }
+      });
+
+      messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          sendButton.click();
+        }
+      });
+    </script>
+  </body>
+</html>

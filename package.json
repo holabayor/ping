@@ -1,0 +1,32 @@
+{
+  "name": "restaurant-chatbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holabayor/restaurant-chatbot.git"
+  },
+  "keywords": [
+    "socket.io",
+    "node.js",
+    "chatbot"
+  ],
+  "author": "Aanuoluwapo Liasu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/holabayor/restaurant-chatbot/issues"
+  },
+  "homepage": "https://github.com/holabayor/restaurant-chatbot#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
+}
