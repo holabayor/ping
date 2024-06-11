@@ -22,7 +22,7 @@ const menu = [
 ];
 
 // Initial message options
-const initialMessage = `Select an option:
+const initialMessage = `Select an option:\n
 1. Place an order
 99. Checkout order
 98. See order history
