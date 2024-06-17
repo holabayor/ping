@@ -10,6 +10,24 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="assets/favicon/site.webmanifest" />
 
     <title>Restaurant Chatbot</title>
     <style>
@@ -22,16 +40,11 @@
 
       :root {
         --off-white: #f2f2f7;
-
-        --bg-chat: #f2f2f7;
-
+        --bg-chat: #fafafa;
         --text-primary: #242426;
         --text-secondary: #2d2d2f;
-
         --color-secondary: #007aff;
-
         --active: #08f26e;
-
         --stroke: #e1e1e1;
       }
 
@@ -40,6 +53,25 @@
         padding: 10px;
         font-size: 16px;
         color: var(--text-primary);
+        height: 100vh;
+      }
+
+      .chat-icon {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--color-secondary);
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--off-white);
+        box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
+        z-index: 1000;
       }
 
       .container {
@@ -82,8 +114,8 @@
       .heading span {
         display: inline-block;
         margin-left: 0.3rem;
-        height: 0.3rem;
-        width: 0.3rem;
+        height: 0.4rem;
+        width: 0.4rem;
         border-radius: 100%;
         background: var(--active);
       }
@@ -94,7 +126,7 @@
         gap: 0.4rem;
       }
 
-      button {
+      .icons button {
         border: none;
         padding: 0.2rem;
       }
@@ -104,6 +136,9 @@
       }
 
       ul {
+        height: 100%;
+        overflow: scroll;
+        background-color: var(--bg-chat);
         list-style-type: none;
         display: flex;
         flex-direction: column;
@@ -118,11 +153,11 @@
         max-width: 70%;
       }
 
-      #chat {
+      /* #chat {
         height: 100%;
         overflow: scroll;
         background-color: var(--bg-chat);
-      }
+      } */
 
       #chat::-webkit-scrollbar {
         display: none;
@@ -141,11 +176,23 @@
         border-bottom-right-radius: 0;
       }
 
-      #form {
+      #chatForm {
         display: flex;
         padding: 0.5rem 1.2rem;
         gap: 5px;
         width: 100%;
+      }
+
+      #loginForm input {
+        padding: 0.4rem;
+        width: 70%;
+        border-radius: 0.4rem;
+      }
+      #loginForm button {
+        margin: 0.4rem auto;
+        padding: 0.4rem;
+        width: 100px;
+        border-radius: 0.4rem;
       }
 
       input {
@@ -165,6 +212,8 @@
       }
 
       #sendButton {
+        border: none;
+        padding: 0.2rem;
         color: var(--color-secondary);
       }
       #sendButton:hover {
@@ -176,14 +225,18 @@
       @media screen and (max-width: 480px) {
         .container {
           width: 90%;
-          height: 80%;
+          height: 70%;
         }
       }
     </style>
   </head>
   <body>
     <h1>Welcome to Maami Market</h1>
-    <div class="container">
+    <button class="chat-icon" id="chatIcon">
+      <i class="fa-solid fa-comment-dots fa-2xl"></i>
+    </button>
+
+    <div id="chatContainer" class="container" style="display: none">
       <div class="header">
         <div class="heading">
           <img src="./assets/ekene.jpg" alt="Chef" />
@@ -191,15 +244,15 @@
           <span></span>
         </div>
         <div class="icons">
-          <!-- <i class="fa-solid fa-right-from-bracket"></i> -->
-          <button>
+          <button id="minimizeButton">
             <i class="fa-solid fa-angle-down fa-xl"></i>
           </button>
-          <button>
+          <button id="logoutButton">
             <i class="fa-solid fa-xmark fa-xl"></i>
           </button>
         </div>
       </div>
+      <!-- <div> -->
       <div id="chat">
         <ul id="messages">
           <li class="user">This is a test message</li>
@@ -209,7 +262,7 @@
           <li class="bot">This is a test message</li>
         </ul>
       </div>
-      <form id="form" action="">
+      <form id="chatForm" action="">
         <input
           id="input"
           type="text"
@@ -219,9 +272,36 @@
         <button id="sendButton" aria-label="Send">
           <i class="fa-solid fa-paper-plane fa-lg"></i>
         </button>
-        <!-- Send <i class="fa-regular fa-paper-plane"></i> -->
       </form>
+      <!-- </div> -->
     </div>
+
+    <!-- <div id="loginContainer" class="container">
+      <div class="header">
+        <div class="heading">
+          <img src="./assets/ekene.jpg" alt="Chef" />
+          <p>Ekene</p>
+          <span></span>
+        </div>
+        <div class="icons">
+          <button>
+            <i class="fa-solid fa-angle-down fa-xl"></i>
+          </button>
+          <button>
+            <i class="fa-solid fa-xmark fa-xl"></i>
+          </button>
+        </div>
+      </div>
+      <div>
+        <p>Hello, I am Ekene the bot</p>
+        <p>Please sign to place your order.</p>
+        <form id="loginForm" action="">
+          <input id="input" type="text" placeholder="Enter your username" />
+          <button id="signinButton" aria-label="Sign in">Sign in</button>
+        </form>
+      </div>
+    </div> -->
+
     <script
       src="https://kit.fontawesome.com/7926b5ab8d.js"
       crossorigin="anonymous"
@@ -232,10 +312,26 @@
 
       // console.log('The socket is ', socket);
 
+      const chatIcon = document.getElementById('chatIcon');
+      const chatContainer = document.getElementById('chatContainer');
+      const loginContainer = document.getElementById('loginContainer');
+      const minimizeButton = document.getElementById('minimizeButton');
+      const logoutButton = document.getElementById('logoutButton');
       const chat = document.getElementById('chat');
       const messages = document.getElementById('messages');
       const sendButton = document.getElementById('sendButton');
       const messageInput = document.getElementById('input');
+
+      // UI Controllers
+      chatIcon.addEventListener('click', () => {
+        chatContainer.style.display = 'flex';
+        chatIcon.style.display = 'none';
+      });
+
+      minimizeButton.addEventListener('click', () => {
+        chatContainer.style.display = 'none';
+        chatIcon.style.display = 'block';
+      });
 
       const appendMessage = (message, className) => {
         const messageElement = document.createElement('li');
