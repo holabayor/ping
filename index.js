@@ -9,6 +9,9 @@ const server = createServer(app);
 
 const io = new Server(server);
 
+// Serve the static files
+app.use(express.static(join(__dirname, 'public')));
+
 // Initialise an empty users object
 const users = {};
 // Will contain objects of user with key value pairs of { sessionId: {currentstate, currentOrder, History}}
@@ -39,7 +42,7 @@ const handleUserInput = (sessionId, input) => {
     users[sessionId] = {
       currentOrder: [],
       orderHistory: [],
-      currentState: 'inital',
+      currentState: 'initial',
     };
   }
 
@@ -51,23 +54,46 @@ const handleUserInput = (sessionId, input) => {
       switch (input) {
         case '1':
           user.currentState = 'ordering';
-          let menuList = menu.map(
-            (item, index) => `${index + 21}. ${item.name} - ${item.price}\n`
-          );
+          let menuList = menu
+            .map(
+              (item, index) => `${index + 21}. ${item.name} - ${item.price}\n`
+            )
+            .join('');
           console.log(menuList);
 
           sendMessage(sessionId, menuList);
           break;
         case '99':
-          sendMessage(sessionId, 'Checkout order');
+          if (currentOrder.length > 0) {
+            user.orderHistory.push(...currentOrder);
+            user.currentOrder = [];
+            sendMessage(sessionId, `Order placed successfully.`);
+          } else {
+            sendMessage(sessionId, 'No order to place.');
+          }
           break;
         case '98':
-          sendMessage(sessionId, 'See order history');
+          sendMessage(
+            sessionId,
+            `Order history:\n${
+              user.orderHistory.map((item) => item.name).join(', ') ||
+              'No order history.'
+            }`
+          );
+
           break;
         case '97':
-          sendMessage(sessionId, 'See current order');
+          sendMessage(
+            sessionId,
+            `Current order:\n${
+              currentOrder.map((item) => item.name).join(', ') ||
+              'No current order.'
+            }`
+          );
+
           break;
         case '0':
+          user.currentOrder = [];
           sendMessage(sessionId, 'Order cancelled');
           break;
         default:
@@ -79,19 +105,20 @@ const handleUserInput = (sessionId, input) => {
       const menuIndex = parseInt(input) - 21;
       if (menuIndex >= 0 && menuIndex < menu.length) {
         currentOrder.push(menu[menuIndex]);
-        console.log(menu[menuIndex]);
-        sendMessage(sessionId, `${menu[menuIndex]} added to your order.`);
+        // console.log(menu[menuIndex]);
+        sendMessage(sessionId, `${menu[menuIndex].name} added to your order.`);
+        sendMessage(sessionId, `Select 99 to place the order, 0 to cancel.`);
       } else if (input === '99') {
         if (currentOrder.length > 0) {
           user.orderHistory.push(...currentOrder);
-          currentOrder = [];
-          // user.currentState = 'initial'
-          sendMessage(sessionId, `${menu[menuIndex]} added to your order.`);
+          user.currentOrder = [];
+          user.currentState = 'initial';
+          sendMessage(sessionId, `Order placed successfully.`);
         } else {
           sendMessage(sessionId, 'No order to place.');
         }
       } else if (input === '0') {
-        currentOrder = [];
+        user.currentOrder = [];
         user.currentState = 'initial';
         sendMessage(sessionId, 'Order canceled.');
       } else {
@@ -116,8 +143,8 @@ io.on('connection', (socket) => {
     currentState: 'initial',
   };
 
-  socket.emit('message', initialMessage);
-  sendMessage(sessionId, initialMessage);
+  // socket.emit('message', initialMessage);
+  // sendMessage(sessionId, initialMessage);
 
   socket.on('userInput', (input) => {
     console.log('User input on the server: ' + input);

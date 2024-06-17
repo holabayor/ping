@@ -10,24 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="assets/favicon/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="assets/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="assets/favicon/site.webmanifest" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
     <title>Restaurant Chatbot</title>
     <style>
@@ -78,18 +61,18 @@
         position: absolute;
         bottom: 20px;
         right: 20px;
-        background-color: var(--off-white);
+        /* background-color: var(--off-white); */
         display: flex;
         flex-direction: column;
         width: 60%;
         max-width: 640px;
         height: 500px;
-        /* max-height: 400px; */
         border-radius: 10px;
         box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
       }
 
       .header {
+        background-color: var(--off-white);
         display: flex;
         justify-content: space-between;
         border-bottom: 1px solid var(--stroke);
@@ -100,7 +83,7 @@
         display: flex;
         align-items: center;
         font-weight: 600;
-        font-size: 1.05rem;
+        font-size: 1.2rem;
       }
 
       .heading img {
@@ -114,8 +97,8 @@
       .heading span {
         display: inline-block;
         margin-left: 0.3rem;
-        height: 0.4rem;
-        width: 0.4rem;
+        height: 0.6rem;
+        width: 0.6rem;
         border-radius: 100%;
         background: var(--active);
       }
@@ -136,9 +119,6 @@
       }
 
       ul {
-        height: 100%;
-        overflow: scroll;
-        background-color: var(--bg-chat);
         list-style-type: none;
         display: flex;
         flex-direction: column;
@@ -153,11 +133,11 @@
         max-width: 70%;
       }
 
-      /* #chat {
+      #chat {
         height: 100%;
         overflow: scroll;
         background-color: var(--bg-chat);
-      } */
+      }
 
       #chat::-webkit-scrollbar {
         display: none;
@@ -177,22 +157,11 @@
       }
 
       #chatForm {
+        background-color: var(--off-white);
         display: flex;
         padding: 0.5rem 1.2rem;
         gap: 5px;
         width: 100%;
-      }
-
-      #loginForm input {
-        padding: 0.4rem;
-        width: 70%;
-        border-radius: 0.4rem;
-      }
-      #loginForm button {
-        margin: 0.4rem auto;
-        padding: 0.4rem;
-        width: 100px;
-        border-radius: 0.4rem;
       }
 
       input {
@@ -220,6 +189,35 @@
         outline: none;
         cursor: pointer;
         color: blue;
+      }
+
+      #loginContainer {
+        background-color: var(--bg-chat);
+        display: flex;
+        flex-direction: column;
+        padding: 4rem 2rem;
+        /* align-items: center; */
+      }
+      #loginContainer h6 {
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      #loginContainer input {
+        margin: 4rem 0 1rem;
+        padding: 1rem;
+        flex-grow: 1;
+        width: 70%;
+        border-radius: 0.4rem;
+      }
+      #signinButton {
+        width: 40%;
+        padding: 1rem 2rem;
+        border: 1px solid var(--color-secondary);
+        border-radius: 0.4rem;
+        background-color: var(--color-secondary);
+        color: var(--off-white);
+        font-weight: 600;
       }
 
       @media screen and (max-width: 480px) {
@@ -252,14 +250,13 @@
           </button>
         </div>
       </div>
-      <!-- <div> -->
       <div id="chat">
         <ul id="messages">
-          <li class="user">This is a test message</li>
+          <!-- <li class="user">This is a test message</li>
           <li class="bot">This is a test message</li>
           <li class="user">This is a test message</li>
           <li class="bot">This is a test message</li>
-          <li class="bot">This is a test message</li>
+          <li class="bot">This is a test message</li> -->
         </ul>
       </div>
       <form id="chatForm" action="">
@@ -273,34 +270,17 @@
           <i class="fa-solid fa-paper-plane fa-lg"></i>
         </button>
       </form>
-      <!-- </div> -->
+      <div id="loginContainer" style="display: none">
+        <h6>Hello, I am Ekene the bot</h6>
+        <p>Please sign in with your username to place your order.</p>
+        <input
+          id="usernameInput"
+          type="text"
+          placeholder="Enter your username"
+        />
+        <button id="signinButton" aria-label="Sign in">Sign in</button>
+      </div>
     </div>
-
-    <!-- <div id="loginContainer" class="container">
-      <div class="header">
-        <div class="heading">
-          <img src="./assets/ekene.jpg" alt="Chef" />
-          <p>Ekene</p>
-          <span></span>
-        </div>
-        <div class="icons">
-          <button>
-            <i class="fa-solid fa-angle-down fa-xl"></i>
-          </button>
-          <button>
-            <i class="fa-solid fa-xmark fa-xl"></i>
-          </button>
-        </div>
-      </div>
-      <div>
-        <p>Hello, I am Ekene the bot</p>
-        <p>Please sign to place your order.</p>
-        <form id="loginForm" action="">
-          <input id="input" type="text" placeholder="Enter your username" />
-          <button id="signinButton" aria-label="Sign in">Sign in</button>
-        </form>
-      </div>
-    </div> -->
 
     <script
       src="https://kit.fontawesome.com/7926b5ab8d.js"
@@ -310,27 +290,71 @@
     <script>
       const socket = io();
 
+      const username = localStorage.getItem('username');
       // console.log('The socket is ', socket);
 
       const chatIcon = document.getElementById('chatIcon');
       const chatContainer = document.getElementById('chatContainer');
       const loginContainer = document.getElementById('loginContainer');
+      const signinButton = document.getElementById('signinButton');
       const minimizeButton = document.getElementById('minimizeButton');
       const logoutButton = document.getElementById('logoutButton');
       const chat = document.getElementById('chat');
+      const chatForm = document.getElementById('chatForm');
       const messages = document.getElementById('messages');
       const sendButton = document.getElementById('sendButton');
+      const usernameInput = document.getElementById('usernameInput');
       const messageInput = document.getElementById('input');
 
       // UI Controllers
+      const showChat = () => {
+        loginContainer.style.display = 'none';
+        chat.style.display = 'block';
+        chatForm.style.display = 'flex';
+      };
+
+      const showLogin = () => {
+        loginContainer.style.display = 'flex';
+        chat.style.display = 'none';
+        chatForm.style.display = 'none';
+      };
+
       chatIcon.addEventListener('click', () => {
         chatContainer.style.display = 'flex';
         chatIcon.style.display = 'none';
+
+        if (username) {
+          showChat();
+        } else {
+          showLogin();
+        }
       });
 
       minimizeButton.addEventListener('click', () => {
         chatContainer.style.display = 'none';
         chatIcon.style.display = 'block';
+      });
+
+      logoutButton.addEventListener('click', () => {
+        localStorage.removeItem('username');
+        console.log('messages before ', messages);
+        messages.innerHTML = '';
+        console.log('messages after ', messages);
+        showLogin();
+        // chatContainer.style.display = 'none';
+        // chatIcon.style.display = 'block';
+      });
+
+      signinButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        const newUsername = usernameInput.value.trim();
+        console.log(newUsername);
+        if (newUsername) {
+          localStorage.setItem('username', newUsername);
+          showChat();
+          appendMessage(`Hello ${newUsername}!`, 'bot');
+          socket.emit('userInput', '1');
+        }
       });
 
       const appendMessage = (message, className) => {
