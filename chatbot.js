@@ -105,7 +105,7 @@ class Chatbot {
     }
   }
   handleOrderingInput(user, input) {
-    const menuIndex = parseInt(input) - 21;
+    const menuIndex = Number(input) - 21;
     if (menuIndex >= 0 && menuIndex < this.menu.length) {
       user.addOrder(this.menu[menuIndex]);
       this.sendMessage(
