@@ -339,7 +339,7 @@
       signinButton.addEventListener('click', (e) => {
         e.preventDefault();
         const newUsername = usernameInput.value.trim();
-        console.log(newUsername);
+        // console.log(newUsername);
         if (newUsername) {
           localStorage.setItem('username', newUsername);
           showChat();
@@ -355,12 +355,12 @@
         messageElement.className = `message ${className}`;
 
         messages.appendChild(messageElement);
-        console.log('Messages here', messages);
+        // console.log('Messages here', messages);
         chat.scrollTop = messages.scrollHeight;
       };
 
       socket.on('message', (message) => {
-        console.log('Another message received', message);
+        // console.log('Another message received', message);
         appendMessage(message, 'bot');
       });
 

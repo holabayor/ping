@@ -6,8 +6,14 @@ class Chatbot {
     this.menu = [
       { name: 'Fried Rice', price: 2000 },
       { name: 'Jollof Rice', price: 1500 },
-      { name: 'Beef', price: 1000 },
+      { name: 'Beef', price: 1200 },
       { name: 'Chicken', price: 3000 },
+      { name: 'Pasta', price: 2500 },
+      { name: 'Burger', price: 1800 },
+      { name: 'Pizza', price: 3000 },
+      { name: 'Salad', price: 1000 },
+      { name: 'Ice Cream', price: 500 },
+      { name: 'Cake', price: 1500 },
     ];
     this.initialMessage = `<b>Select an option:</b><br/>
                             1. Place an order<br/>
@@ -54,7 +60,7 @@ class Chatbot {
     switch (input) {
       case '1':
         const menuList = this.generateMenuList();
-        this.sendMessage(user, `Menu:<br/>${menuList}`);
+        this.sendMessage(user, `<b>Menu:</b><br/>${menuList}`);
         user.currentState = 'ordering';
         break;
 

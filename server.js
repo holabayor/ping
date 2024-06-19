@@ -49,7 +49,7 @@ io.on('connection', (socket) => {
   socket.join(sessionId);
 
   socket.on('username', (username) => {
-    console.log('User input on the server: ' + username);
+    // console.log('User input on the server: ' + username);
 
     if (!reqSession.users) {
       reqSession.users = {};
@@ -77,7 +77,7 @@ io.on('connection', (socket) => {
 
   socket.on('userInput', (input) => {
     // console.log('User input on the server: ' + input);
-    console.log('The connected user session is ', reqSession.users);
+    // console.log('The connected user session is ', reqSession.users);
     if (reqSession.user) {
       chatbot.handleUserInput(reqSession, input);
     } else {
