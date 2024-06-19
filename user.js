@@ -36,14 +36,32 @@ class User {
   }
 
   getOrderHistory() {
-    return this.orderHistory.length > 0
-      ? this.orderHistory.map((item) => item.name).join(', ')
-      : 'No order history.';
+    if (this.orderHistory.length > 0) {
+      const history = this.orderHistory
+        .map((item) => `${item.name} - ${item.price}`)
+        .join('<br/>');
+      const totalPrice = this.orderHistory.reduce(
+        (total, item) => total + item.price,
+        0
+      );
+      return `${history}<br/><b>Total: ${totalPrice}</b>`;
+    } else {
+      return 'No order history.';
+    }
   }
   getCurrentOrder() {
-    return this.currentOrder.length > 0
-      ? this.currentOrder.map((item) => item.name).join(', ')
-      : 'No current order.';
+    if (this.currentOrder.length > 0) {
+      const order = this.currentOrder
+        .map((item) => `${item.name} - ${item.price}`)
+        .join('<br/>');
+      const totalPrice = this.currentOrder.reduce(
+        (total, item) => total + item.price,
+        0
+      );
+      return `${order}<br/><b>Total: ${totalPrice}</b>`;
+    } else {
+      return 'No current order.';
+    }
   }
 
   static getUser(sessionData) {

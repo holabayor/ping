@@ -48,6 +48,16 @@ io.on('connection', (socket) => {
   const sessionId = reqSession.id;
   socket.join(sessionId);
 
+  if (reqSession.user) {
+    // If the user is already in the session, send a welcome back message
+    const user = User.getUser(reqSession.user);
+    chatbot.sendMessage(user, `Welcome back ${user.username}!`);
+    chatbot.sendMessage(user, chatbot.initialMessage);
+  } else {
+    // If the user is not in the session, prompt for a username
+    socket.emit('error');
+  }
+
   socket.on('username', (username) => {
     // console.log('User input on the server: ' + username);
 
@@ -61,7 +71,7 @@ io.on('connection', (socket) => {
     if (!reqSession.users[userId]) {
       user = new User(username, sessionId);
       reqSession.users[userId] = user;
-      chatbot.sendMessage(user, `Welcome ${username}!`);
+      chatbot.sendMessage(user, `Welcome to AfroCuisine, ${username}!`);
     } else {
       user = User.getUser(reqSession.user);
       chatbot.sendMessage(

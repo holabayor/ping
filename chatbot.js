@@ -24,7 +24,11 @@ class Chatbot {
   }
 
   sendMessage(user, message) {
-    this.io.to(user.sessionId).emit('message', message);
+    const timestamp = new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    this.io.to(user.sessionId).emit('message', { message, timestamp });
   }
 
   generateMenuList() {
@@ -60,7 +64,7 @@ class Chatbot {
     switch (input) {
       case '1':
         const menuList = this.generateMenuList();
-        this.sendMessage(user, `<b>Menu:</b><br/>${menuList}`);
+        this.sendMessage(user, `<b>Menu</b><br/>${menuList}`);
         user.currentState = 'ordering';
         break;
 
@@ -73,11 +77,17 @@ class Chatbot {
         break;
 
       case '98':
-        this.sendMessage(user, `Order history:<br/>${user.getOrderHistory()}`);
+        this.sendMessage(
+          user,
+          `<b>Order history</b><br/>${user.getOrderHistory()}`
+        );
         break;
 
       case '97':
-        this.sendMessage(user, `Current order:<br/>${user.getCurrentOrder()}`);
+        this.sendMessage(
+          user,
+          `<b>Current order</b><br/>${user.getCurrentOrder()}`
+        );
         break;
 
       case '0':
