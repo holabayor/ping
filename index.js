@@ -93,8 +93,13 @@ const handleUserInput = (sessionId, input) => {
 
           break;
         case '0':
-          user.currentOrder = [];
-          sendMessage(sessionId, 'Order cancelled');
+          if (user.currentOrder.length > 0) {
+            user.currentOrder = [];
+            user.currentState = 'initial';
+            sendMessage(sessionId, 'Order canceled.');
+          } else {
+            sendMessage(sessionId, 'No order to cancel.');
+          }
           break;
         default:
           sendMessage(sessionId, 'Invalid option selected');
@@ -115,12 +120,16 @@ const handleUserInput = (sessionId, input) => {
           user.currentState = 'initial';
           sendMessage(sessionId, `Order placed successfully.`);
         } else {
-          sendMessage(sessionId, 'No order to place.');
+          sendMessage(sessionId, 'No order to cancel.');
         }
       } else if (input === '0') {
-        user.currentOrder = [];
-        user.currentState = 'initial';
-        sendMessage(sessionId, 'Order canceled.');
+        if (user.currentOrder.length > 0) {
+          user.currentOrder = [];
+          user.currentState = 'initial';
+          sendMessage(sessionId, 'Order canceled.');
+        } else {
+          sendMessage(sessionId, 'Order canceled.');
+        }
       } else {
         sendMessage(sessionId, 'Invalid option. Kindly select a valid option.');
       }
@@ -148,9 +157,15 @@ io.on('connection', (socket) => {
 
   socket.on('userInput', (input) => {
     console.log('User input on the server: ' + input);
+
+    if (input === 'start') {
+      sendMessage(sessionId, initialMessage);
+    } else {
+      handleUserInput(sessionId, input);
+    }
+
     // socket.emit('message', input);
     console.log(users[sessionId]);
-    handleUserInput(sessionId, input);
   });
 });
 

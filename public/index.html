@@ -337,9 +337,7 @@
 
       logoutButton.addEventListener('click', () => {
         localStorage.removeItem('username');
-        console.log('messages before ', messages);
         messages.innerHTML = '';
-        console.log('messages after ', messages);
         showLogin();
         // chatContainer.style.display = 'none';
         // chatIcon.style.display = 'block';
@@ -352,8 +350,9 @@
         if (newUsername) {
           localStorage.setItem('username', newUsername);
           showChat();
-          appendMessage(`Hello ${newUsername}!`, 'bot');
-          socket.emit('userInput', '1');
+          socket.emit('username', newUsername);
+
+          // socket.emit('userInput', 'start');
         }
       });
 
@@ -370,6 +369,10 @@
       socket.on('message', (message) => {
         console.log('Another message received', message);
         appendMessage(message, 'bot');
+      });
+
+      socket.on('error', (message) => {
+        logoutButton.click();
       });
 
       sendButton.addEventListener('click', (e) => {
