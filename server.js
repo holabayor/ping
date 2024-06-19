@@ -32,7 +32,7 @@ const sessionMiddleware = session({
   }),
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60 * 60 * 1000 }, // 1 hour
+  cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
 });
 
 app.use(sessionMiddleware);

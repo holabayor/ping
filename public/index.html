@@ -251,13 +251,7 @@
         </div>
       </div>
       <div id="chat">
-        <ul id="messages">
-          <!-- <li class="user">This is a test message</li>
-          <li class="bot">This is a test message</li>
-          <li class="user">This is a test message</li>
-          <li class="bot">This is a test message</li>
-          <li class="bot">This is a test message</li> -->
-        </ul>
+        <ul id="messages"></ul>
       </div>
       <form id="chatForm" action="">
         <input
@@ -291,7 +285,6 @@
       const socket = io();
 
       const username = localStorage.getItem('username');
-      // console.log('The socket is ', socket);
 
       const chatIcon = document.getElementById('chatIcon');
       const chatContainer = document.getElementById('chatContainer');
@@ -358,7 +351,7 @@
 
       const appendMessage = (message, className) => {
         const messageElement = document.createElement('li');
-        messageElement.textContent = message;
+        messageElement.innerHTML = message;
         messageElement.className = `message ${className}`;
 
         messages.appendChild(messageElement);

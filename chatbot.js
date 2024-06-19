@@ -9,7 +9,12 @@ class Chatbot {
       { name: 'Beef', price: 1000 },
       { name: 'Chicken', price: 3000 },
     ];
-    this.initialMessage = `Select an option:\n1. Place an order\n99. Checkout order\n98. See order history\n97. See current order\n0. Cancel order`;
+    this.initialMessage = `<b>Select an option:</b><br/>
+                            1. Place an order<br/>
+                            99. Checkout order<br/>
+                            98. See order history<br/>
+                            97. See current order<br/>
+                            0. Cancel order`;
   }
 
   sendMessage(user, message) {
@@ -18,19 +23,13 @@ class Chatbot {
 
   generateMenuList() {
     return this.menu
-      .map((item, index) => `${index + 21}. ${item.name} - ${item.price}\n`)
+      .map((item, index) => `${index + 21}. ${item.name} - ${item.price}<br/>`)
       .join('');
   }
 
   handleUserInput(session, input) {
     const userKey = User.generateKey(session.user.username, session.id);
     const user = User.getUser(session.users[userKey]);
-
-    // console.log(
-    //   'The current state is before handling input',
-    //   user.currentState,
-    //   session.user.currentState
-    // );
 
     switch (user.currentState) {
       case 'initial':
@@ -45,7 +44,7 @@ class Chatbot {
         break;
     }
 
-    // SYnc and update the user and session objects
+    // Sync and update the user and session objects
     user.saveUser();
     session.users[userKey] = user;
     session.save();
@@ -55,7 +54,7 @@ class Chatbot {
     switch (input) {
       case '1':
         const menuList = this.generateMenuList();
-        this.sendMessage(user, `Menu:\n${menuList}`);
+        this.sendMessage(user, `Menu:<br/>${menuList}`);
         user.currentState = 'ordering';
         break;
 
@@ -68,11 +67,11 @@ class Chatbot {
         break;
 
       case '98':
-        this.sendMessage(user, `Order history:\n${user.getOrderHistory()}`);
+        this.sendMessage(user, `Order history:<br/>${user.getOrderHistory()}`);
         break;
 
       case '97':
-        this.sendMessage(user, `Current order:\n${user.getCurrentOrder()}`);
+        this.sendMessage(user, `Current order:<br/>${user.getCurrentOrder()}`);
         break;
 
       case '0':
@@ -99,7 +98,7 @@ class Chatbot {
       );
       this.sendMessage(
         user,
-        `Select 99 to checkout the order, 0 to cancel the order.`
+        'Select <br/> 99 to checkout the order <br/>&nbsp;0 to cancel the order <br/> 00 to go to the main menu'
       );
     } else if (input === '99') {
       if (user.checkoutOrder()) {
@@ -117,8 +116,10 @@ class Chatbot {
       user.currentState = 'initial';
       this.sendMessage(user, `${this.initialMessage}`);
     } else {
-      this.sendMessage(user, 'Invalid option. Kindly select a valid option.');
-      this.sendMessage(user, `Select 00 to go to the main menu`);
+      this.sendMessage(
+        user,
+        'Invalid option. Kindly select a valid option.<br/>Select 00 to go to the main menu'
+      );
     }
   }
 }
